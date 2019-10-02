@@ -2,7 +2,6 @@
   <v-app>
     <nav-bar></nav-bar>
     <v-content>
-      <HelloWorld/>
     </v-content>
   </v-app>
 </template>
