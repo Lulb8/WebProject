@@ -3,11 +3,11 @@
     <div class="container">
       <magic-grid>
         <card
-          v-for="(post, i) in posts"
+          v-for="(recipe, i) in recipes"
           :key="i"
-          :strMeal="post.strMeal"
-          :strCategory="post.strCategory"
-          :strMealThumb="post.strMealThumb" />
+          :strMeal="recipe.strMeal"
+          :strCategory="recipe.strCategory"
+          :strMealThumb="recipe.strMealThumb" />
       </magic-grid>
     </div>
   </section>
@@ -25,14 +25,14 @@ export default {
   },
   data () {
     return {
-      posts: []
+      recipes: []
     }
   },
   mounted () {
     fetch('https://raw.githubusercontent.com/Lulb8/Apis/master/meals.json')
       .then(response => response.json())
       .then(json => {
-        this.posts = json.slice(0, 209)
+        this.recipes = json.slice(0, 209)
       })
   }
 }
