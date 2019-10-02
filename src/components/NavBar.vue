@@ -47,8 +47,8 @@
 
     <v-app-bar app color="#C62828" dark>
       <div class="flex-grow-0"></div>
-      <v-toolbar-title>Meals App</v-toolbar-title>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Meals App</v-toolbar-title>
     </v-app-bar>
 
     <v-footer color="#8e0000" app>
