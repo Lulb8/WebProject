@@ -13,6 +13,13 @@
         small-chips
         solo
       >
+        <template v-slot:no-data>
+          <v-list-item>
+            <span class="subheading">Create</span>
+            <v-chip :color="`${colors[nonce - 1]} lighten-3`" label small>{{ search }}</v-chip>
+          </v-list-item>
+        </template>
+
         <template v-slot:selection="{ attrs, item, parent, selected }">
           <v-chip
             v-if="item === Object(item)"
@@ -27,6 +34,7 @@
             <v-icon small @click="parent.selectItem(item)">mdi-close-circle-outline</v-icon>
           </v-chip>
         </template>
+
         <template v-slot:item="{ index, item }">
           <v-text-field
             v-if="editing === item"
@@ -44,7 +52,14 @@
             <v-list-item-content>{{ item.text }}</v-list-item-content>
           </v-chip>
           <div class="flex-grow-1"></div>
-          <v-list-item-action @click.stop />
+        <v-list-item-action @click.stop>
+          <v-btn
+            icon
+            @click.stop.prevent="edit(index, item)"
+          >
+            <v-icon>{{ editing !== item ? 'mdi-pencil' : 'mdi-check' }}</v-icon>
+          </v-btn>
+        </v-list-item-action>
         </template>
       </v-combobox>
     </v-container>
@@ -64,167 +79,180 @@
 </template>
 
 <script>
-import magicGrid from "./magic-grid/magic-grid.vue";
-import card from "./Card.vue";
+import magicGrid from './magic-grid/magic-grid.vue'
+import card from './Card.vue'
 export default {
-  name: "grid",
+  name: 'grid',
   components: {
     card,
     magicGrid
   },
-  data() {
+  data () {
     return {
       recipes: [],
       activator: null,
       attach: null,
       colors: [
-        "brown",
-        "red",
-        "green",
-        "green lighten-2",
-        "yellow darken-1",
-        "lime lighten-1",
-        "blue",
-        "orange",
-        "amber",
-        "pink",
-        "red lighten-4",
-        "red",
-        "cyan",
-        "deep-purple"
+        'brown',
+        'red',
+        'green',
+        'green lighten-2',
+        'yellow darken-1',
+        'lime lighten-1',
+        'blue',
+        'orange',
+        'amber',
+        'pink',
+        'red lighten-4',
+        'red',
+        'cyan',
+        'deep-purple'
       ],
+      editing: null,
       index: -1,
       items: [
-        { header: "Select a category" },
+        { header: 'Select a category' },
         {
-          text: "Breakfast",
-          color: "brown",
-          icon: "mdi-food-croissant"
+          text: 'Breakfast',
+          color: 'brown',
+          icon: 'mdi-food-croissant'
         },
         {
-          text: "Starter",
-          color: "red",
-          icon: "mdi-nutrition"
+          text: 'Starter',
+          color: 'red',
+          icon: 'mdi-nutrition'
         },
         {
-          text: "Vegetarian",
-          color: "green",
-          icon: "mdi-leaf"
+          text: 'Vegetarian',
+          color: 'green',
+          icon: 'mdi-leaf'
         },
         {
-          text: "Vegan",
-          color: "green lighten-2",
-          icon: "mdi-sprout-outline"
+          text: 'Vegan',
+          color: 'green lighten-2',
+          icon: 'mdi-sprout-outline'
         },
         {
-          text: "Pasta",
-          color: "yellow darken-1",
-          icon: "mdi-pasta"
+          text: 'Pasta',
+          color: 'yellow darken-1',
+          icon: 'mdi-pasta'
         },
         {
-          text: "Side",
-          color: "lime lighten-1",
-          icon: "mdi-bowl"
+          text: 'Side',
+          color: 'lime lighten-1',
+          icon: 'mdi-bowl'
         },
         {
-          text: "Seafood",
-          color: "blue",
-          icon: "mdi-fish"
+          text: 'Seafood',
+          color: 'blue',
+          icon: 'mdi-fish'
         },
         {
-          text: "Lamb",
-          color: "orange",
-          icon: "mdi-sheep"
+          text: 'Lamb',
+          color: 'orange',
+          icon: 'mdi-sheep'
         },
         {
-          text: "Chicken",
-          color: "amber",
-          icon: ""
+          text: 'Chicken',
+          color: 'amber',
+          icon: ''
         },
         {
-          text: "Pork",
-          color: "pink",
-          icon: "mdi-pig-variant"
+          text: 'Pork',
+          color: 'pink',
+          icon: 'mdi-pig-variant'
         },
         {
-          text: "Goat",
-          color: "red lighten-4",
-          icon: ""
+          text: 'Goat',
+          color: 'red lighten-4',
+          icon: ''
         },
         {
-          text: "Beef",
-          color: "red",
-          icon: "mdi-cow"
+          text: 'Beef',
+          color: 'red',
+          icon: 'mdi-cow'
         },
         {
-          text: "Miscellaneous",
-          color: "cyan",
-          icon: "mdi-hexagon-multiple"
+          text: 'Miscellaneous',
+          color: 'cyan',
+          icon: 'mdi-hexagon-multiple'
         },
         {
-          text: "Dessert",
-          color: "deep-purple",
-          icon: "mdi-cupcake"
+          text: 'Dessert',
+          color: 'deep-purple',
+          icon: 'mdi-cupcake'
         }
       ],
-      model: [
+      /* model: [
         {
-          text: "All",
-          color: "indigo",
-          icon: "mdi-filter-remove"
+          text: 'All',
+          color: 'indigo',
+          icon: 'mdi-filter-remove'
         }
-      ],
+      ], */
       nonce: 1,
       menu: false,
       x: 0,
       search: null,
       y: 0
-    };
-  },
-  mounted() {
-    fetch("https://raw.githubusercontent.com/Lulb8/Apis/master/meals.json")
-      .then(response => response.json())
-      .then(json => {
-        this.recipes = json.slice(0, 209);
-      });
-  },
-
-  computed: {
-    filteredRecipes: function() {
-      return this.recipes.filter(recipe => {
-        return recipe.strCategory.match(this.search);
-      });
     }
   },
+  mounted () {
+    fetch('https://raw.githubusercontent.com/Lulb8/Apis/master/meals.json')
+      .then(response => response.json())
+      .then(json => {
+        this.recipes = json.slice(0, 209)
+      })
+  },
+  /*
+  computed: {
+    filteredRecipes: function () {
+      return this.recipes.filter(recipe => {
+        return recipe.strCategory.toLowerCase().match(this.search.toLowerCase())
+      })
+    }
+  },
+*/
 
   watch: {
-    model(val, prev) {
-      if (val.length === prev.length) return;
+    model (val, prev) {
+      if (val.length === prev.length) return
       this.model = val.map(v => {
-        if (typeof v === "string") {
+        if (typeof v === 'string') {
           v = {
             text: v,
             color: this.colors[this.nonce - 1]
-          };
-          this.items.push(v);
-          this.nonce++;
+          }
+          this.items.push(v)
+          this.nonce++
         }
-        return v;
-      });
+        return v
+      })
     }
   },
 
   methods: {
-    filter(item, queryText, itemText) {
-      if (item.header) return false;
+    edit (index, item) {
+      if (!this.editing) {
+        this.editing = item
+        this.index = index
+      } else {
+        this.editing = null
+        this.index = -1
+      }
+    },
+    filter (item, queryText, itemText) {
+      if (item.header) return false
 
-      const hasValue = val => (val != null ? val : "");
+      const hasValue = val => val != null ? val : ''
 
-      const text = hasValue(itemText);
-      const query = hasValue(queryText);
+      const text = hasValue(itemText)
+      const query = hasValue(queryText)
 
-      return text.toString().indexOf(query.toString()) > -1;
+      return text.toString()
+        .toLowerCase()
+        .indexOf(query.toString().toLowerCase()) > -1
     }
   }
-};
+}
 </script>
