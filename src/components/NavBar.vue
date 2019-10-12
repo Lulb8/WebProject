@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="inspire" style="height:0">
     <v-navigation-drawer v-model="drawer" app left>
       <v-list dense>
         <v-list-item @click>
