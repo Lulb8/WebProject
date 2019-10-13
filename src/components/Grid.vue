@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-  
         <v-select
           v-model="search"
           :items="items"
@@ -14,7 +13,6 @@
           :hide-no-data="!search"
           :search-input.sync="search"
         ></v-select>
-
     <div class="container">
       <magic-grid>
         <card
@@ -130,7 +128,7 @@ export default {
           color: 'deep-purple',
           icon: 'mdi-cupcake'
         }
-      ],
+      ]
       /* model: [
         {
           text: 'All',
