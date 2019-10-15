@@ -1,13 +1,12 @@
 <template>
   <div class="card large">
-
-      <div class="card-image">
-        <router-link :to="{ name: 'detail', params: { idMeal }}">
+    <div class="card-image">
+      <router-link :to="{ name: 'detail', params: { idMeal }}">
         <figure class="image">
           <img :src="strMealThumb" alt="Image" width="250em" />
         </figure>
-        </router-link>
-      </div>
+      </router-link>
+    </div>
 
     <div class="card-content content">
       <h4>{{ strMeal }}</h4>
@@ -20,11 +19,13 @@
 export default {
   name: 'card',
   data () {
-    return {
-      idMeal: `idMeal`
-    }
+    return {}
   },
   props: {
+    idMeal: {
+      type: String,
+      default: ''
+    },
     strMeal: {
       type: String,
       default: ''
@@ -33,12 +34,16 @@ export default {
       type: String,
       default: ''
     },
-    strMealThumb: {
-      type: Image,
+    strArea: {
+      type: String,
       default: ''
     },
-    idMeal: {
+    strInstructions: {
       type: String,
+      default: ''
+    },
+    strMealThumb: {
+      type: Image,
       default: ''
     }
   }

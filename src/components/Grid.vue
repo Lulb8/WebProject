@@ -18,9 +18,12 @@
         <card
           v-for="(recipe, i) in filteredRecipes"
           :key="i"
+          :idMeal="recipe.idMeal"
           :strMeal="recipe.strMeal"
           :strCategory="recipe.strCategory"
+          :strArea="recipe.strArea"
           :strMealThumb="recipe.strMealThumb"
+          :strInstructions="recipe.strInstructions"
         />
       </magic-grid>
     </div>
