@@ -24,6 +24,7 @@
           :strArea="recipe.strArea"
           :strMealThumb="recipe.strMealThumb"
           :strInstructions="recipe.strInstructions"
+          :strYoutube="recipe.strYoutube"
         />
       </magic-grid>
     </div>

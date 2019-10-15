@@ -1,7 +1,7 @@
 <template>
   <div class="card large">
     <div class="card-image">
-      <router-link :to="{ name: 'detail', params: { idMeal }}">
+      <router-link :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strArea, strInstructions, strMealThumb, strYoutube }}">
         <figure class="image">
           <img :src="strMealThumb" alt="Image" width="250em" />
         </figure>
@@ -44,6 +44,10 @@ export default {
     },
     strMealThumb: {
       type: Image,
+      default: ''
+    },
+    strYoutube: {
+      type: String,
       default: ''
     }
   }
