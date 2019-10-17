@@ -18,6 +18,12 @@ export default new Router({
       name: 'detail',
       component: () => import('./components/Detail.vue'),
       props: true
+    },
+    {
+      path: '/favorites',
+      name: 'favorites',
+      component: () => import('./components/Favorites.vue'),
+      props: true
     }
     /*,
     {

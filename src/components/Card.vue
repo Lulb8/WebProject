@@ -1,7 +1,9 @@
 <template>
   <div class="card large">
     <div class="card-image">
-      <router-link :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}">
+      <router-link
+        :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}"
+      >
         <figure class="image">
           <img :src="strMealThumb" alt="Image" width="250em" />
         </figure>
@@ -12,10 +14,7 @@
       <h4>{{ strMeal }}</h4>
       <p>{{ strCategory }}</p>
       <v-spacer></v-spacer>
-      <v-chip
-        class="mr-2"
-        @click="favorite(strMeal)"
-      >
+      <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
         <v-icon>mdi-heart</v-icon>
       </v-chip>
     </div>
@@ -30,7 +29,7 @@ export default {
   },
   methods: {
     favorite (name) {
-      alert(name)
+      alert('Add ' + name + ' to favorites')
     }
   },
   props: {
