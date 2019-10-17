@@ -25,6 +25,17 @@
           :strMealThumb="recipe.strMealThumb"
           :strInstructions="recipe.strInstructions"
           :strYoutube="recipe.strYoutube"
+          :strTags="recipe.strTags"
+          :strIngredient1="recipe.strIngredient1"
+          :strIngredient2="recipe.strIngredient2"
+          :strIngredient3="recipe.strIngredient3"
+          :strIngredient4="recipe.strIngredient4"
+          :strIngredient5="recipe.strIngredient5"
+          :strIngredient6="recipe.strIngredient6"
+          :strIngredient7="recipe.strIngredient7"
+          :strIngredient8="recipe.strIngredient8"
+          :strIngredient9="recipe.strIngredient9"
+          :strIngredient10="recipe.strIngredient10"
         />
       </magic-grid>
     </div>
