@@ -1,8 +1,9 @@
 <template>
   <div id="recipe_single">
     <div>
-      <v-breadcrumbs icons divider="mdi-chevron_right">
-        <v-breadcrumbs-item replace :to="{name: 'home'}">Home</v-breadcrumbs-item>
+      <v-breadcrumbs>
+        <v-breadcrumbs-item :to="{ name: 'home'}">Home</v-breadcrumbs-item>
+        <v-icon>mdi-chevron-right</v-icon>
         <v-breadcrumbs-item disabled>{{strMeal}}</v-breadcrumbs-item>
         <v-spacer></v-spacer>
         <v-btn primary light color="red white--text" replace :to="{name: 'home'}">Back</v-btn>
@@ -20,34 +21,20 @@
               <ul class="recipe_meta">
                 <li>
                   <p>
-                    <strong>DINKS</strong>
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>PREPARATION</strong>
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>COOK TIME</strong>
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>SERVINGS</strong>
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>Category</strong>
+                    <strong>Category </strong>
                     <v-chip class="brown white--text">{{ strCategory }}</v-chip>
                   </p>
                 </li>
                 <li>
                   <p>
-                    <strong>Area</strong>
+                    <strong>Area </strong>
                     <v-chip class="blue white--text">{{ strArea }}</v-chip>
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Tags </strong>
+                    <v-chip class="purple white--text">{{ strTags }}</v-chip>
                   </p>
                 </li>
               </ul>
@@ -57,7 +44,14 @@
           <v-layout row wrap class="recipe_content_wrap">
             <v-flex xs12 md8 offset-md2>
               <div class="video-responsive">
-                <iframe width="560" height="315" :src="strYoutube" frameborder="0" allowfullscreen></iframe>
+                <iframe
+                  width="560"
+                  height="315"
+                  :src="strYoutube"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
               </div>
             </v-flex>
           </v-layout>
@@ -99,7 +93,8 @@ export default {
     'strArea',
     'strInstructions',
     'strMealThumb',
-    'strYoutube'
+    'strYoutube',
+    'strTags'
     /*,
     'strIngredient1',
     'strIngredient2',
@@ -169,7 +164,8 @@ export default {
   width: 100%;
   position: absolute;
 }
-.breadcrumbs {
+
+#recipe_single .breadcrumbs li:first-child a {
   color: #ffc107;
 }
 </style>

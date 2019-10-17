@@ -2,7 +2,7 @@
   <v-app id="inspire" style="height:0">
     <v-navigation-drawer v-model="drawer" app left>
       <v-list dense>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'home'}">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
           </v-list-item-action>
