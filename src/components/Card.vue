@@ -15,7 +15,8 @@
       <p>{{ strCategory }}</p>
       <v-spacer></v-spacer>
       <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
-        <v-icon>mdi-heart</v-icon>
+        <v-icon v-if="isFavorited">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
       </v-chip>
     </div>
   </div>
@@ -24,12 +25,19 @@
 <script>
 export default {
   name: 'card',
-  data () {
-    return {}
+  data: function () {
+    return {
+      isFavorited: false
+    }
   },
   methods: {
     favorite (name) {
-      alert('Add ' + name + ' to favorites')
+      // alert('Add ' + name + ' to favorites'),
+      if (this.isFavorited === false) {
+        this.isFavorited = true
+      } else {
+        this.isFavorited = false
+      }
     }
   },
   props: {
