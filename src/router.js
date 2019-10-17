@@ -12,6 +12,12 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Grid
+    },
+    {
+      path: '/detail',
+      name: 'detail',
+      component: () => import('./components/Detail.vue'),
+      props: true
     }
     /*,
     {

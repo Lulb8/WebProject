@@ -1,10 +1,11 @@
 <template>
-
   <div class="card large">
     <div class="card-image">
-      <figure class="image">
-        <img :src="strMealThumb" alt="Image" width="250em">
-      </figure>
+      <router-link :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}">
+        <figure class="image">
+          <img :src="strMealThumb" alt="Image" width="250em" />
+        </figure>
+      </router-link>
     </div>
 
     <div class="card-content content">
@@ -12,13 +13,19 @@
       <p>{{ strCategory }}</p>
     </div>
   </div>
-
 </template>
 
 <script>
 export default {
   name: 'card',
+  data () {
+    return {}
+  },
   props: {
+    idMeal: {
+      type: String,
+      default: ''
+    },
     strMeal: {
       type: String,
       default: ''
@@ -27,8 +34,64 @@ export default {
       type: String,
       default: ''
     },
+    strTags: {
+      type: String,
+      default: ''
+    },
+    strArea: {
+      type: String,
+      default: ''
+    },
+    strInstructions: {
+      type: String,
+      default: ''
+    },
     strMealThumb: {
       type: Image,
+      default: ''
+    },
+    strYoutube: {
+      type: String,
+      default: ''
+    },
+    strIngredient1: {
+      type: String,
+      default: ''
+    },
+    strIngredient2: {
+      type: String,
+      default: ''
+    },
+    strIngredient3: {
+      type: String,
+      default: ''
+    },
+    strIngredient4: {
+      type: String,
+      default: ''
+    },
+    strIngredient5: {
+      type: String,
+      default: ''
+    },
+    strIngredient6: {
+      type: String,
+      default: ''
+    },
+    strIngredient7: {
+      type: String,
+      default: ''
+    },
+    strIngredient8: {
+      type: String,
+      default: ''
+    },
+    strIngredient9: {
+      type: String,
+      default: ''
+    },
+    strIngredient10: {
+      type: String,
       default: ''
     }
   }

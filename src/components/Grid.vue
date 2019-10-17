@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-  
         <v-select
           v-model="search"
           :items="items"
@@ -14,15 +13,29 @@
           :hide-no-data="!search"
           :search-input.sync="search"
         ></v-select>
-
     <div class="container">
       <magic-grid>
         <card
           v-for="(recipe, i) in filteredRecipes"
           :key="i"
+          :idMeal="recipe.idMeal"
           :strMeal="recipe.strMeal"
           :strCategory="recipe.strCategory"
+          :strArea="recipe.strArea"
           :strMealThumb="recipe.strMealThumb"
+          :strInstructions="recipe.strInstructions"
+          :strYoutube="recipe.strYoutube"
+          :strTags="recipe.strTags"
+          :strIngredient1="recipe.strIngredient1"
+          :strIngredient2="recipe.strIngredient2"
+          :strIngredient3="recipe.strIngredient3"
+          :strIngredient4="recipe.strIngredient4"
+          :strIngredient5="recipe.strIngredient5"
+          :strIngredient6="recipe.strIngredient6"
+          :strIngredient7="recipe.strIngredient7"
+          :strIngredient8="recipe.strIngredient8"
+          :strIngredient9="recipe.strIngredient9"
+          :strIngredient10="recipe.strIngredient10"
         />
       </magic-grid>
     </div>
@@ -130,7 +143,7 @@ export default {
           color: 'deep-purple',
           icon: 'mdi-cupcake'
         }
-      ],
+      ]
       /* model: [
         {
           text: 'All',
