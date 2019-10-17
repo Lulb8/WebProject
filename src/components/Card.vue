@@ -14,10 +14,14 @@
       <h4>{{ strMeal }}</h4>
       <p>{{ strCategory }}</p>
       <v-spacer></v-spacer>
+      <router-link
+        :to="{ name: 'favorites', params: { strMeal, strCategory, strMealThumb }}"
+      >
       <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
         <v-icon v-if="isFavorited">mdi-heart</v-icon>
         <v-icon v-else>mdi-heart-outline</v-icon>
       </v-chip>
+      </router-link>
     </div>
   </div>
 </template>
