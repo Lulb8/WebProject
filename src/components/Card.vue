@@ -11,6 +11,13 @@
     <div class="card-content content">
       <h4>{{ strMeal }}</h4>
       <p>{{ strCategory }}</p>
+      <v-spacer></v-spacer>
+      <v-chip
+        class="mr-2"
+        @click="favorite(strMeal)"
+      >
+        <v-icon>mdi-heart</v-icon>
+      </v-chip>
     </div>
   </div>
 </template>
@@ -20,6 +27,11 @@ export default {
   name: 'card',
   data () {
     return {}
+  },
+  methods: {
+    favorite (name) {
+      alert(name)
+    }
   },
   props: {
     idMeal: {
