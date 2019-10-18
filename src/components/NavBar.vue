@@ -34,7 +34,7 @@
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'favorites'}">
           <v-list-item-action>
             <v-icon>mdi-heart-multiple</v-icon>
           </v-list-item-action>

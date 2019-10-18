@@ -1,7 +1,9 @@
 <template>
   <div class="card large">
     <div class="card-image">
-      <router-link :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}">
+      <router-link
+        :to="{ name: 'detail', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}"
+      >
         <figure class="image">
           <img :src="strMealThumb" alt="Image" width="250em" />
         </figure>
@@ -11,6 +13,15 @@
     <div class="card-content content">
       <h4>{{ strMeal }}</h4>
       <p>{{ strCategory }}</p>
+      <v-spacer></v-spacer>
+      <router-link
+        :to="{ name: 'favorites', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}"
+      >
+      <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
+        <v-icon v-if="isFavorited">mdi-heart</v-icon>
+        <v-icon v-else>mdi-heart-outline</v-icon>
+      </v-chip>
+      </router-link>
     </div>
   </div>
 </template>
@@ -18,8 +29,20 @@
 <script>
 export default {
   name: 'card',
-  data () {
-    return {}
+  data: function () {
+    return {
+      isFavorited: false
+    }
+  },
+  methods: {
+    favorite (name) {
+      // alert('Add ' + name + ' to favorites'),
+      if (this.isFavorited === false) {
+        this.isFavorited = true
+      } else {
+        this.isFavorited = false
+      }
+    }
   },
   props: {
     idMeal: {
