@@ -30,6 +30,6 @@
 <script>
 export default {
   name: 'favorites',
-  props: ['strMeal', 'strCategory', 'strMealThumb']
+  props: [ 'idMeal', 'strMeal', 'strCategory', 'strTags', 'strArea', 'strInstructions', 'strMealThumb', 'strYoutube', 'strIngredient1', 'strIngredient2', 'strIngredient3', 'strIngredient4', 'strIngredient5', 'strIngredient6', 'strIngredient7', 'strIngredient8', 'strIngredient9', 'strIngredient10' ]
 }
 </script>

@@ -15,7 +15,7 @@
       <p>{{ strCategory }}</p>
       <v-spacer></v-spacer>
       <router-link
-        :to="{ name: 'favorites', params: { strMeal, strCategory, strMealThumb }}"
+        :to="{ name: 'favorites', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}"
       >
       <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
         <v-icon v-if="isFavorited">mdi-heart</v-icon>
