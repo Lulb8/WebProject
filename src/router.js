@@ -24,12 +24,16 @@ export default new Router({
       name: 'favorites',
       component: () => import('./components/Favorites.vue'),
       props: true
-    }
-    /*,
+    },
     {
       path: '/login',
       name: 'login',
       component: () => import('./components/Login.vue')
-    } */
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('./components/Register.vue')
+    }
   ]
 })
