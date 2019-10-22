@@ -19,14 +19,6 @@
                     required
                   ></v-text-field>
                   <v-text-field
-                    v-model="lastname"
-                    :counter="20"
-                    :rules="nameRules"
-                    prepend-icon="mdi-account-outline"
-                    label="Last Name"
-                    required
-                  ></v-text-field>
-                  <v-text-field
                     v-model="password"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[passwordRules.required, passwordRules.min]"
@@ -37,6 +29,7 @@
                     counter
                     prepend-icon="mdi-lock"
                     @click:append="show = !show"
+                    required
                   ></v-text-field>
                   <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
                   <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>

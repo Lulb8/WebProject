@@ -10,7 +10,7 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'register'}">
           <v-list-item-action>
             <v-icon>mdi-account-edit</v-icon>
           </v-list-item-action>
@@ -18,7 +18,7 @@
             <v-list-item-title>Register</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'login'}">
           <v-list-item-action>
             <v-icon>mdi-account-lock</v-icon>
           </v-list-item-action>

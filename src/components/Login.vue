@@ -10,19 +10,29 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field label="Login" name="login" prepend-icon="mdi-account" type="text"></v-text-field>
                   <v-text-field
-                    id="password"
+                    v-model="login"
+                    label="Login"
+                    name="login"
+                    prepend-icon="mdi-account"
+                    type="text"
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="password"
+                    :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="show ? 'text' : 'password'"
+                    name="input-10-1"
                     label="Password"
-                    name="password"
                     prepend-icon="mdi-lock"
-                    type="password"
+                    @click:append="show = !show"
+                    required
                   ></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="orange">Login</v-btn>
+                <v-btn color="success" class="mr-4" @click="login">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -38,7 +48,22 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null
-  })
+    show: false,
+    drawer: null,
+    url: '' // 'http://localhost:4000'
+  }),
+  methods: {
+    async login () {
+      // connecter l'utilisateur
+      const response = await this.axios.post(this.url + '/api/login', {
+        login: 'admin',
+        password: 'mypassword'
+        /* login: this.login,
+        password: this.password*/
+      })
+      console.log('response is:', response)
+    },
+    logout () {}
+  }
 }
 </script>
