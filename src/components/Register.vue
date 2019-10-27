@@ -15,7 +15,7 @@
                     :counter="20"
                     :rules="nameRules"
                     prepend-icon="mdi-account"
-                    label="Name"
+                    label="Login"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -32,7 +32,14 @@
                     required
                   ></v-text-field>
                   <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
-                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="register">Validate</v-btn>
+                  <router-link :to="{ name: 'home', params: { username, password }}">
+                    <v-btn
+                      :disabled="!valid"
+                      color="success"
+                      class="mr-4"
+                      @click="register"
+                    >Validate</v-btn>
+                  </router-link>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -58,7 +65,7 @@ export default {
     passwordRules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 3 || 'Min 3 characters',
-      emailMatch: () => ('The password you entered don\'t match')
+      emailMatch: () => "The password you entered don't match"
     }
   }),
 
@@ -73,19 +80,28 @@ export default {
     },
     async register () {
       // connecter l'utilisateur
-      const newuser = await this.axios.post(this.url + '/api/register', {
+      const response = await this.axios.post(this.url + '/api/register', {
         username: this.name,
         password: this.password
       })
-      console.log('New user is:', newuser)
+      console.log('New user is:', response)
     },
     addElement () {
       this.todos.push({
-        id: this.todos.length,
-        identifiant: this.identifiant,
+        name: this.name,
         password: this.password
       })
       console.log('ajouté !')
+    }
+  },
+  props: {
+    username: {
+      type: String,
+      default: ''
+    },
+    password: {
+      type: String,
+      default: ''
     }
   }
 }

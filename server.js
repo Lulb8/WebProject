@@ -31,7 +31,12 @@ app.use(express.static(path.join(__dirname, '/dist')))
 
 const users = [{
   username: 'admin',
-  password: 'changethispassword'
+  password: 'L&J',
+  favorites: [
+    {
+      nameRecipe: ''
+    }
+  ]
 }]
 
 app.get('/', (req, res) => {
@@ -41,32 +46,25 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/api/test', (req, res) => {
-  console.log('ce console.log est appelé au bon moment')
-  res.json([
-    {
-      title: 'truc',
-      content: 'machin'
-    }
-  ])
-})
-
 app.post('/api/register', (req, res) => {
-  console.log('req.body', req.body)
-  console.log('req.query', req.query)
-
-  users.push({
-    username: req.body.username,
-    password: req.body.password
-  })
-
-  res.status(200)
-  res.json({
-    message: 'Nouvel utilisateur',
-    lengthUsers: users.length
-  })
-  console.log('Users after sign up : ', users)
-  return users
+  const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+  if (!user) {
+    users.push({
+      username: req.body.username,
+      password: req.body.password,
+      favorites: []
+    })
+    res.status(200)
+    res.json({
+      message: 'New user created'
+    })
+    console.log('Users after sign up : ', users)
+    return users
+  } else {
+    res.json({
+      message: 'The user already exist, please enter a new name'
+    })
+  }
 })
 
 app.post('/api/login', (req, res) => {
@@ -82,9 +80,10 @@ app.post('/api/login', (req, res) => {
       })
     } else {
       // connect the user
-      req.session.userId = 1000 //user.id // connect the user, and change the id
+      req.session.userId = 1000 // user.id // connect the user, and change the id
       res.json({
-        message: 'connected'
+        message: 'connected',
+        favorites: user.favorites
       })
     }
   } else {
@@ -109,16 +108,17 @@ app.get('/api/logout', (req, res) => {
     })
   }
 })
-/*
-app.get('/home', (req, res) => {
-  if (req.session.loggedin) {
-    res.send('Welcome back, ' + req.session.username + '!')
-  } else {
-    res.send('Please login to view this page!')
-  }
-  res.end()
+
+app.get('/favorite', (req, res) => {
+  const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+  user.favorites.unshift({
+    nameRecipe: req.body.nameRecipe
+  })
+  res.json({
+    favorites: user.favorites
+  })
 })
-*/
+
 app.get('/api/admin', (req, res) => {
   if (!req.session.userId || req.session.isAdmin === false) {
     res.status(401)

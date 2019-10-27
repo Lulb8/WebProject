@@ -11,9 +11,8 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    v-model="login"
+                    v-model="name"
                     label="Login"
-                    name="login"
                     prepend-icon="mdi-account"
                     type="text"
                     required
@@ -32,7 +31,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
+                <router-link :to="{ name: 'home'}">
                 <v-btn color="success" class="mr-4" @click="login">Login</v-btn>
+                </router-link>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import router from '../router'
 export default {
   props: {
     source: String
@@ -56,14 +58,26 @@ export default {
     async login () {
       // connecter l'utilisateur
       const response = await this.axios.post(this.url + '/api/login', {
-        login: 'admin',
-        password: 'mypassword'
-        /* login: this.login,
-        password: this.password*/
+        login: this.name,
+        password: this.password
       })
+        .then((response) => {
+          console.log('Logged in')
+          router.push('/home')
+        })
+        .catch((errors) => {
+          console.log('Cannot log in')
+        })
+      console.log('reponse status :', response.status)
+      if (response.status === 200) {
+        this.isconnected = true
+        console.log('valid if: ', this.valid)
+        // Permet de vider le champs de texte après connexion
+        this.password = ''
+        this.name = ''
+      }
       console.log('response is:', response)
-    },
-    logout () {}
+    }
   }
 }
 </script>
