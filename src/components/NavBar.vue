@@ -26,7 +26,7 @@
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item @click="logout">
           <v-list-item-action>
             <v-icon>mdi-account-remove</v-icon>
           </v-list-item-action>
@@ -64,7 +64,16 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null
-  })
+    drawer: null,
+    url: 'http://localhost:4000'
+  }),
+  methods: {
+    async logout () {
+      const logout = await this.axios.get(this.url + '/api/logout')
+      this.isconnected = false
+      console.log(logout)
+    }
+
+  }
 }
 </script>
