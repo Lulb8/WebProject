@@ -16,6 +16,7 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:8080'
 }))
+
 app.use(session({
   secret: 'blablabla', // changez cette valeur
   resave: false,
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, '/dist')))
 
 const users = [{
   username: 'admin',
-  password: 'mypassword'
+  password: 'changethispassword'
 }]
 
 app.get('/', (req, res) => {
@@ -50,10 +51,27 @@ app.get('/api/test', (req, res) => {
   ])
 })
 
+app.post('/api/register', (req, res) => {
+  console.log('req.body', req.body)
+  console.log('req.query', req.query)
+
+  users.push({
+    username: req.body.username,
+    password: req.body.password
+  })
+
+  res.status(200)
+  res.json({
+    message: 'Nouvel utilisateur',
+    lengthUsers: users.length
+  })
+  console.log('Users after sign up : ', users)
+  return users
+})
+
 app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
   console.log('req.query', req.query)
-  console.log('req.body.username', req.body.username)
   if (!req.session.userId) {
     const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
     if (!user) {
@@ -64,7 +82,7 @@ app.post('/api/login', (req, res) => {
       })
     } else {
       // connect the user
-      req.session.userId = user.id // connect the user, and change the id
+      req.session.userId = 1000 //user.id // connect the user, and change the id
       res.json({
         message: 'connected'
       })
@@ -75,6 +93,7 @@ app.post('/api/login', (req, res) => {
       message: 'you are already connected'
     })
   }
+  console.log('Users after login : ', users)
 })
 
 app.get('/api/logout', (req, res) => {
@@ -90,7 +109,7 @@ app.get('/api/logout', (req, res) => {
     })
   }
 })
-
+/*
 app.get('/home', (req, res) => {
   if (req.session.loggedin) {
     res.send('Welcome back, ' + req.session.username + '!')
@@ -99,7 +118,7 @@ app.get('/home', (req, res) => {
   }
   res.end()
 })
-
+*/
 app.get('/api/admin', (req, res) => {
   if (!req.session.userId || req.session.isAdmin === false) {
     res.status(401)

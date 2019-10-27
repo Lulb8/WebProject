@@ -34,6 +34,10 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () => import('./components/Register.vue')
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })

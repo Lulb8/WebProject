@@ -24,7 +24,7 @@
                     :rules="[passwordRules.required, passwordRules.min]"
                     :type="show ? 'text' : 'password'"
                     name="input-10-1"
-                    label="Normal with hint text"
+                    label="Password"
                     hint="At least 3 characters"
                     counter
                     prepend-icon="mdi-lock"
@@ -32,7 +32,7 @@
                     required
                   ></v-text-field>
                   <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
-                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
+                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="register">Validate</v-btn>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -48,8 +48,8 @@ export default {
   data: () => ({
     valid: true,
     name: '',
-    lastname: '',
     show: false,
+    url: 'http://localhost:4000',
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length <= 20) || 'Name must be less than 20 characters'
@@ -70,6 +70,22 @@ export default {
     },
     reset () {
       this.$refs.form.reset()
+    },
+    async register () {
+      // connecter l'utilisateur
+      const newuser = await this.axios.post(this.url + '/api/register', {
+        username: this.name,
+        password: this.password
+      })
+      console.log('New user is:', newuser)
+    },
+    addElement () {
+      this.todos.push({
+        id: this.todos.length,
+        identifiant: this.identifiant,
+        password: this.password
+      })
+      console.log('ajouté !')
     }
   }
 }
