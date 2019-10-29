@@ -31,7 +31,9 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="success" class="mr-4" @click="login">Login</v-btn>
+                <router-link :to="{ name: 'home'}">
+                  <v-btn color="success" class="mr-4" @click="login">Login {{ uName }}</v-btn>
+                </router-link>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -43,9 +45,6 @@
 
 <script>
 export default {
-  props: {
-    source: String
-  },
   data: () => ({
     show: false,
     drawer: null,
@@ -54,27 +53,23 @@ export default {
   methods: {
     async login () {
       // connecter l'utilisateur
-      const response = await this.axios.post(this.url + '/api/login', {
-        name: this.name,
-        password: this.password
-      })
-      console.log('response', response)
-        .then((response) => {
-          console.log('Logged in')
-        // router.push('/home')
+      await this.axios
+        .post(this.url + '/api/login', {
+          name: this.name,
+          password: this.password
         })
-        .catch((errors) => {
+        .then(response => {
+          console.log('Logged in')
+          console.log(response)
+          // this.$emit('getUserName', response.data.userName)
+          // console.log('uName ', this.uName)
+          if (response.status === 200) {
+            this.isconnected = true
+          }
+        })
+        .catch(errors => {
           console.log('Cannot log in')
         })
-      console.log('reponse status :', response)
-      if (response.status === 200) {
-        this.isconnected = true
-        console.log('valid if: ', this.valid)
-        // Permet de vider le champs de texte après connexion
-        this.password = ''
-        this.name = ''
-      }
-      console.log('response is:', response)
     }
   }
 }

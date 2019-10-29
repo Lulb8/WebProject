@@ -33,7 +33,10 @@ app.use(express.static(path.join(__dirname, '/dist')))
 */
 const users = [{
   name: 'admin',
-  password: 'L&J'
+  password: 'L&J',
+  favorites: [{
+    nameRecipe: 'Chocolate Gateau'
+  }]
 }]
 
 app.get('/', (req, res) => {
@@ -48,7 +51,8 @@ app.post('/api/register', (req, res) => {
   if (!user) {
     users.push({
       name: req.body.name,
-      password: req.body.password
+      password: req.body.password,
+      favorites: []
     })
     res.status(200)
     res.json({
@@ -80,7 +84,8 @@ app.post('/api/login', (req, res) => {
       // connect the user
       req.session.userId = 1000 // connect the user, and change the id
       res.json({
-        message: 'connected'
+        message: 'connected',
+        userName: user.name
       })
     }
   } else {
@@ -106,17 +111,20 @@ app.get('/api/logout', (req, res) => {
     })
   }
 })
-/*
-app.get('/favorite', (req, res) => {
-  const user = users.find(u => u.name === req.body.login && u.password === req.body.password)
+
+app.put('/api/favorite', (req, res) => {
+  console.log('coucou')
+  const user = users.find(u => u.username === req.body.username)
+  console.log(req)
   user.favorites.unshift({
     nameRecipe: req.body.nameRecipe
   })
   res.json({
     favorites: user.favorites
   })
+  console.log('fav', user.favorites)
 })
-*/
+
 app.get('/api/admin', (req, res) => {
   if (!req.session.userId || req.session.isAdmin === false) {
     res.status(401)
