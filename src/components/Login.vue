@@ -12,7 +12,7 @@
                 <v-form>
                   <v-text-field
                     v-model="name"
-                    label="Login"
+                    label="Name"
                     prepend-icon="mdi-account"
                     type="text"
                     required
@@ -31,9 +31,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <router-link :to="{ name: 'home'}">
                 <v-btn color="success" class="mr-4" @click="login">Login</v-btn>
-                </router-link>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -44,7 +42,6 @@
 </template>
 
 <script>
-import router from '../router'
 export default {
   props: {
     source: String
@@ -58,17 +55,18 @@ export default {
     async login () {
       // connecter l'utilisateur
       const response = await this.axios.post(this.url + '/api/login', {
-        login: this.name,
+        name: this.name,
         password: this.password
       })
+      console.log('response', response)
         .then((response) => {
           console.log('Logged in')
-          router.push('/home')
+        // router.push('/home')
         })
         .catch((errors) => {
           console.log('Cannot log in')
         })
-      console.log('reponse status :', response.status)
+      console.log('reponse status :', response)
       if (response.status === 200) {
         this.isconnected = true
         console.log('valid if: ', this.valid)

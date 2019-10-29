@@ -81,7 +81,7 @@ export default {
     async register () {
       // connecter l'utilisateur
       const response = await this.axios.post(this.url + '/api/register', {
-        username: this.name,
+        name: this.name,
         password: this.password
       })
       console.log('New user is:', response)

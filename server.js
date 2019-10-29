@@ -25,18 +25,15 @@ app.use(session({
 }))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
+// app.use(cors())
 
+/*
 const path = require('path')
 app.use(express.static(path.join(__dirname, '/dist')))
-
+*/
 const users = [{
-  username: 'admin',
-  password: 'L&J',
-  favorites: [
-    {
-      nameRecipe: ''
-    }
-  ]
+  name: 'admin',
+  password: 'L&J'
 }]
 
 app.get('/', (req, res) => {
@@ -47,18 +44,18 @@ app.get('/', (req, res) => {
 })
 
 app.post('/api/register', (req, res) => {
-  const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+  const user = users.find(u => u.name === req.body.name && u.password === req.body.password)
   if (!user) {
     users.push({
-      username: req.body.username,
-      password: req.body.password,
-      favorites: []
+      name: req.body.name,
+      password: req.body.password
     })
     res.status(200)
     res.json({
       message: 'New user created'
     })
     console.log('Users after sign up : ', users)
+    console.log('User after sign up : ', req.body.name)
     return users
   } else {
     res.json({
@@ -69,9 +66,10 @@ app.post('/api/register', (req, res) => {
 
 app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
+  console.log(req.session.userId)
   console.log('req.query', req.query)
   if (!req.session.userId) {
-    const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+    const user = users.find(u => u.name === req.body.name && u.password === req.body.password)
     if (!user) {
       // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
       res.status(401)
@@ -80,10 +78,9 @@ app.post('/api/login', (req, res) => {
       })
     } else {
       // connect the user
-      req.session.userId = 1000 // user.id // connect the user, and change the id
+      req.session.userId = 1000 // connect the user, and change the id
       res.json({
-        message: 'connected',
-        favorites: user.favorites
+        message: 'connected'
       })
     }
   } else {
@@ -93,6 +90,7 @@ app.post('/api/login', (req, res) => {
     })
   }
   console.log('Users after login : ', users)
+  console.log('User after login : ', req.body.name)
 })
 
 app.get('/api/logout', (req, res) => {
@@ -108,9 +106,9 @@ app.get('/api/logout', (req, res) => {
     })
   }
 })
-
+/*
 app.get('/favorite', (req, res) => {
-  const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+  const user = users.find(u => u.name === req.body.login && u.password === req.body.password)
   user.favorites.unshift({
     nameRecipe: req.body.nameRecipe
   })
@@ -118,14 +116,13 @@ app.get('/favorite', (req, res) => {
     favorites: user.favorites
   })
 })
-
+*/
 app.get('/api/admin', (req, res) => {
   if (!req.session.userId || req.session.isAdmin === false) {
     res.status(401)
     res.json({ message: 'Unauthorized' })
     return
   }
-
   res.json({
     message: 'congrats, you are connected'
   })
