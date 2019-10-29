@@ -34,9 +34,10 @@ app.use(express.static(path.join(__dirname, '/dist')))
 const users = [{
   name: 'admin',
   password: 'L&J',
-  favorites: [{
-    nameRecipe: 'Chocolate Gateau'
-  }]
+  favorites: [
+    { nameRecipe: 'Chocolate Gateau' },
+    { nameRecipe: 'Apple Frangipan Tart' }
+  ]
 }]
 
 app.get('/', (req, res) => {
@@ -113,16 +114,24 @@ app.get('/api/logout', (req, res) => {
 })
 
 app.put('/api/favorite', (req, res) => {
-  console.log('coucou')
   const user = users.find(u => u.username === req.body.username)
-  console.log(req)
-  user.favorites.unshift({
+  user.favorites.push({
     nameRecipe: req.body.nameRecipe
   })
   res.json({
+    message: 'favorite added'
+    // favorites: user.favorites
+  })
+  console.log('favorites : ', user.favorites)
+})
+
+app.get('/api/getFavorites', (req, res) => {
+  const user = users.find(u => u.username === req.body.username)
+  console.log('dedae', user.favorites)
+  res.json({
+    message: 'Getting favorites',
     favorites: user.favorites
   })
-  console.log('fav', user.favorites)
 })
 
 app.get('/api/admin', (req, res) => {

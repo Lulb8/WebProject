@@ -40,7 +40,6 @@ export default {
           nameRecipe: this.strMeal,
           username: this.username
         })
-        // console.log('recipe name added !', response)
       } else {
         this.isFavorited = false
       }
