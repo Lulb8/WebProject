@@ -35,8 +35,11 @@ const users = [{
   name: 'admin',
   password: 'L&J',
   favorites: [
-    { nameRecipe: 'Chocolate Gateau' },
-    { nameRecipe: 'Apple Frangipan Tart' }
+    {
+      nameRecipe: 'Chocolate Gateau',
+      categoryRecipe: 'Dessert',
+      imageRecipe: 'https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg' 
+    }
   ]
 }]
 
@@ -116,7 +119,9 @@ app.get('/api/logout', (req, res) => {
 app.put('/api/favorite', (req, res) => {
   const user = users.find(u => u.username === req.body.username)
   user.favorites.push({
-    nameRecipe: req.body.nameRecipe
+    nameRecipe: req.body.nameRecipe,
+    categoryRecipe: req.body.categoryRecipe,
+    imageRecipe: req.body.imageRecipe
   })
   res.json({
     message: 'favorite added'

@@ -38,6 +38,8 @@ export default {
         console.log('recipe name', name)
         this.axios.put(this.url + '/api/favorite', {
           nameRecipe: this.strMeal,
+          categoryRecipe: this.strCategory,
+          imageRecipe: this.strMealThumb,
           username: this.username
         })
       } else {
