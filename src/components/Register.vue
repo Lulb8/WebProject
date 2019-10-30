@@ -10,12 +10,14 @@
               </v-toolbar>
               <v-card-text>
                 <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-alert dense dismissible v-model="success" type="success">{{alertmsg}}</v-alert>
+                  <v-alert dense dismissible v-model="warning" type="warning">{{alertmsg}}</v-alert>
                   <v-text-field
                     v-model="name"
                     :counter="20"
                     :rules="nameRules"
                     prepend-icon="mdi-account"
-                    label="Login"
+                    label="Name"
                     required
                   ></v-text-field>
                   <v-text-field
@@ -32,14 +34,7 @@
                     required
                   ></v-text-field>
                   <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
-                  <router-link :to="{ name: 'home', params: { username, password }}">
-                    <v-btn
-                      :disabled="!valid"
-                      color="success"
-                      class="mr-4"
-                      @click="register"
-                    >Validate</v-btn>
-                  </router-link>
+                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="register">Validate</v-btn>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -54,6 +49,9 @@
 export default {
   data: () => ({
     valid: true,
+    warning: false,
+    success: false,
+    alertmsg: '',
     name: '',
     show: false,
     url: 'http://localhost:4000',
@@ -79,29 +77,18 @@ export default {
       this.$refs.form.reset()
     },
     async register () {
-      // connecter l'utilisateur
-      const response = await this.axios.post(this.url + '/api/register', {
-        name: this.name,
-        password: this.password
-      })
-      console.log('New user is:', response)
-    },
-    addElement () {
-      this.todos.push({
-        name: this.name,
-        password: this.password
-      })
-      console.log('ajouté !')
-    }
-  },
-  props: {
-    username: {
-      type: String,
-      default: ''
-    },
-    password: {
-      type: String,
-      default: ''
+      if (this.password === '' || this.name === '') {
+        this.alertmsg = 'Password or name is empty'
+        this.warning = true
+      } else {
+        const response = await this.axios.post(this.url + '/api/register', {
+          name: this.name,
+          password: this.password
+        })
+        this.alertmsg = 'Successfully created'
+        this.success = true
+        console.log('New user is:', response)
+      }
     }
   }
 }

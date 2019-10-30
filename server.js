@@ -27,10 +27,6 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 // app.use(cors())
 
-/*
-const path = require('path')
-app.use(express.static(path.join(__dirname, '/dist')))
-*/
 const users = [{
   name: 'admin',
   password: 'L&J',
@@ -132,10 +128,19 @@ app.put('/api/favorite', (req, res) => {
 
 app.get('/api/getFavorites', (req, res) => {
   const user = users.find(u => u.username === req.body.username)
-  console.log('dedae', user.favorites)
+  console.log('new favorite', user.favorites)
   res.json({
     message: 'Getting favorites',
     favorites: user.favorites
+  })
+})
+
+app.get('/api/getUser', (req, res) => {
+  const user = users.find(u => u.username === req.body.username)
+  console.log('current user', user.name)
+  res.json({
+    message: 'Getting current user',
+    currentUser: user.name
   })
 })
 

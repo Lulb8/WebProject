@@ -49,6 +49,8 @@
       <div class="flex-grow-0"></div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Meals App</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-title>Utilisateur actuel : {{ currentUser }}</v-toolbar-title>
     </v-app-bar>
 
     <v-footer color="#8e0000" app>
@@ -65,7 +67,8 @@ export default {
   },
   data: () => ({
     drawer: null,
-    url: 'http://localhost:4000'
+    url: 'http://localhost:4000',
+    currentUser: ''
   }),
   methods: {
     async logout () {
@@ -73,7 +76,11 @@ export default {
       this.isconnected = false
       console.log(logout)
     }
-
+  },
+  mounted () {
+    this.axios
+      .get(this.url + '/api/getUser', {})
+      .then(response => (this.currentUser = response.data.currentUser))
   }
 }
 </script>

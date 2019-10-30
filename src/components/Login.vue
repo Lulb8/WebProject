@@ -10,6 +10,9 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
+                  <v-alert dense dismissible v-model="success" type="success">{{alertmsg}}</v-alert>
+                  <v-alert dense dismissible v-model="warning" type="warning">{{alertmsg}}</v-alert>
+                  <v-alert dense dismissible v-model="error" type="error">{{alertmsg}}</v-alert>
                   <v-text-field
                     v-model="name"
                     label="Name"
@@ -31,9 +34,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <router-link :to="{ name: 'home'}">
-                  <v-btn color="success" class="mr-4" @click="login">Login {{ uName }}</v-btn>
-                </router-link>
+                <v-btn color="success" class="mr-4" @click="login">Login {{ uName }}</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -46,6 +47,12 @@
 <script>
 export default {
   data: () => ({
+    name: '',
+    password: '',
+    error: false,
+    warning: false,
+    success: false,
+    alertmsg: '',
     show: false,
     drawer: null,
     url: 'http://localhost:4000' // 'http://localhost:4000'
@@ -53,23 +60,30 @@ export default {
   methods: {
     async login () {
       // connecter l'utilisateur
-      await this.axios
-        .post(this.url + '/api/login', {
-          name: this.name,
-          password: this.password
-        })
-        .then(response => {
-          console.log('Logged in')
-          console.log(response)
-          // this.$emit('getUserName', response.data.userName)
-          // console.log('uName ', this.uName)
-          if (response.status === 200) {
-            this.isconnected = true
-          }
-        })
-        .catch(errors => {
-          console.log('Cannot log in')
-        })
+      if (this.password === '' || this.name === '') {
+        this.alertmsg = 'Password or name is empty'
+        this.warning = true
+      } else {
+        await this.axios
+          .post(this.url + '/api/login', {
+            name: this.name,
+            password: this.password
+          })
+          .then(response => {
+            console.log('Logged in')
+            this.alertmsg = 'Successfully logged in'
+            this.success = true
+            console.log(response)
+            if (response.status === 200) {
+              this.isconnected = true
+            }
+          })
+          .catch(errors => {
+            console.log('Cannot log in')
+            this.alertmsg = 'Password, name or account is wrong'
+            this.error = true
+          })
+      }
     }
   }
 }
