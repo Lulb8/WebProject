@@ -11,12 +11,6 @@ const session = require('express-session')
 
 const app = express()
 
-// ces lignes (cors) sont importantes pour les sessions dans la version de développement
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:8080'
-}))
-
 app.use(session({
   secret: 'blablabla', // changez cette valeur
   resave: false,
@@ -25,7 +19,10 @@ app.use(session({
 }))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-// app.use(cors())
+app.use(cors())
+
+const path = require('path')
+app.use(express.static(path.join(__dirname, 'dist/')))
 
 const users = [{
   name: 'admin',
