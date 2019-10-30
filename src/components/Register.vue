@@ -54,7 +54,7 @@ export default {
     alertmsg: '',
     name: '',
     show: false,
-    url: 'http://localhost:4000',
+    url: '', // 'http://localhost:4000'
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length <= 20) || 'Name must be less than 20 characters'

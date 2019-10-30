@@ -27,7 +27,7 @@ export default {
   name: 'card',
   data: () => ({
     isFavorited: false,
-    url: 'http://localhost:4000',
+    url: '', // 'http://localhost:4000'
     nameRecipe: ''
   }),
   methods: {

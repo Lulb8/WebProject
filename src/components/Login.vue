@@ -55,7 +55,7 @@ export default {
     alertmsg: '',
     show: false,
     drawer: null,
-    url: 'http://localhost:4000' // 'http://localhost:4000'
+    url: '' // 'http://localhost:4000'
   }),
   methods: {
     async login () {
