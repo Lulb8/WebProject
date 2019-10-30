@@ -67,7 +67,7 @@ export default {
   },
   data: () => ({
     drawer: null,
-    url: 'http://localhost:4000',
+    url: '', // 'http://localhost:4000'
     currentUser: ''
   }),
   methods: {

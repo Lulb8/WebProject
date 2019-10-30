@@ -45,7 +45,7 @@ export default {
   },
   data: () => ({
     favorites: false,
-    url: 'http://localhost:4000',
+    url: '', // 'http://localhost:4000'
     listFavorites: []
   }),
   // props: [ 'idMeal', 'strMeal', 'strCategory', 'strTags', 'strArea', 'strInstructions', 'strMealThumb', 'strYoutube', 'strIngredient1', 'strIngredient2', 'strIngredient3', 'strIngredient4', 'strIngredient5', 'strIngredient6', 'strIngredient7', 'strIngredient8', 'strIngredient9', 'strIngredient10' ]
