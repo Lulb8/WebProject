@@ -10,7 +10,7 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'register'}">
           <v-list-item-action>
             <v-icon>mdi-account-edit</v-icon>
           </v-list-item-action>
@@ -18,7 +18,7 @@
             <v-list-item-title>Register</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item :to="{name: 'login'}">
           <v-list-item-action>
             <v-icon>mdi-account-lock</v-icon>
           </v-list-item-action>
@@ -26,7 +26,7 @@
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click>
+        <v-list-item @click="logout">
           <v-list-item-action>
             <v-icon>mdi-account-remove</v-icon>
           </v-list-item-action>
@@ -49,6 +49,8 @@
       <div class="flex-grow-0"></div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Meals App</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-title>Utilisateur actuel : {{ currentUser }}</v-toolbar-title>
     </v-app-bar>
 
     <v-footer color="#8e0000" app>
@@ -64,7 +66,21 @@ export default {
     source: String
   },
   data: () => ({
-    drawer: null
-  })
+    drawer: null,
+    url: 'http://localhost:4000',
+    currentUser: ''
+  }),
+  methods: {
+    async logout () {
+      const logout = await this.axios.get(this.url + '/api/logout')
+      this.isconnected = false
+      console.log(logout)
+    }
+  },
+  mounted () {
+    this.axios
+      .get(this.url + '/api/getUser', {})
+      .then(response => (this.currentUser = response.data.currentUser))
+  }
 }
 </script>

@@ -10,6 +10,8 @@
               </v-toolbar>
               <v-card-text>
                 <v-form ref="form" v-model="valid" lazy-validation>
+                  <v-alert dense dismissible v-model="success" type="success">{{alertmsg}}</v-alert>
+                  <v-alert dense dismissible v-model="warning" type="warning">{{alertmsg}}</v-alert>
                   <v-text-field
                     v-model="name"
                     :counter="20"
@@ -19,27 +21,20 @@
                     required
                   ></v-text-field>
                   <v-text-field
-                    v-model="lastname"
-                    :counter="20"
-                    :rules="nameRules"
-                    prepend-icon="mdi-account-outline"
-                    label="Last Name"
-                    required
-                  ></v-text-field>
-                  <v-text-field
                     v-model="password"
                     :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[passwordRules.required, passwordRules.min]"
                     :type="show ? 'text' : 'password'"
                     name="input-10-1"
-                    label="Normal with hint text"
+                    label="Password"
                     hint="At least 3 characters"
                     counter
                     prepend-icon="mdi-lock"
                     @click:append="show = !show"
+                    required
                   ></v-text-field>
                   <v-btn color="error" class="mr-4" @click="reset">Reset Form</v-btn>
-                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">Validate</v-btn>
+                  <v-btn :disabled="!valid" color="success" class="mr-4" @click="register">Validate</v-btn>
                 </v-form>
               </v-card-text>
             </v-card>
@@ -54,9 +49,12 @@
 export default {
   data: () => ({
     valid: true,
+    warning: false,
+    success: false,
+    alertmsg: '',
     name: '',
-    lastname: '',
     show: false,
+    url: 'http://localhost:4000',
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length <= 20) || 'Name must be less than 20 characters'
@@ -65,7 +63,7 @@ export default {
     passwordRules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 3 || 'Min 3 characters',
-      emailMatch: () => ('The password you entered don\'t match')
+      emailMatch: () => "The password you entered don't match"
     }
   }),
 
@@ -77,6 +75,20 @@ export default {
     },
     reset () {
       this.$refs.form.reset()
+    },
+    async register () {
+      if (this.password === '' || this.name === '') {
+        this.alertmsg = 'Password or name is empty'
+        this.warning = true
+      } else {
+        const response = await this.axios.post(this.url + '/api/register', {
+          name: this.name,
+          password: this.password
+        })
+        this.alertmsg = 'Successfully created'
+        this.success = true
+        console.log('New user is:', response)
+      }
     }
   }
 }

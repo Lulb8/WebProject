@@ -16,6 +16,7 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:8080'
 }))
+
 app.use(session({
   secret: 'blablabla', // changez cette valeur
   resave: false,
@@ -24,13 +25,18 @@ app.use(session({
 }))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-
-const path = require('path')
-app.use(express.static(path.join(__dirname, '/dist')))
+// app.use(cors())
 
 const users = [{
-  username: 'admin',
-  password: 'mypassword'
+  name: 'admin',
+  password: 'L&J',
+  favorites: [
+    {
+      nameRecipe: 'Chocolate Gateau',
+      categoryRecipe: 'Dessert',
+      imageRecipe: 'https://www.themealdb.com/images/media/meals/tqtywx1468317395.jpg' 
+    }
+  ]
 }]
 
 app.get('/', (req, res) => {
@@ -40,22 +46,34 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/api/test', (req, res) => {
-  console.log('ce console.log est appelé au bon moment')
-  res.json([
-    {
-      title: 'truc',
-      content: 'machin'
-    }
-  ])
+app.post('/api/register', (req, res) => {
+  const user = users.find(u => u.name === req.body.name && u.password === req.body.password)
+  if (!user) {
+    users.push({
+      name: req.body.name,
+      password: req.body.password,
+      favorites: []
+    })
+    res.status(200)
+    res.json({
+      message: 'New user created'
+    })
+    console.log('Users after sign up : ', users)
+    console.log('User after sign up : ', req.body.name)
+    return users
+  } else {
+    res.json({
+      message: 'The user already exist, please enter a new name'
+    })
+  }
 })
 
 app.post('/api/login', (req, res) => {
   console.log('req.body', req.body)
+  console.log(req.session.userId)
   console.log('req.query', req.query)
-  console.log('req.body.username', req.body.username)
   if (!req.session.userId) {
-    const user = users.find(u => u.username === req.body.login && u.password === req.body.password)
+    const user = users.find(u => u.name === req.body.name && u.password === req.body.password)
     if (!user) {
       // gérez le cas où on n'a pas trouvé d'utilisateur correspondant
       res.status(401)
@@ -64,9 +82,10 @@ app.post('/api/login', (req, res) => {
       })
     } else {
       // connect the user
-      req.session.userId = user.id // connect the user, and change the id
+      req.session.userId = 1000 // connect the user, and change the id
       res.json({
-        message: 'connected'
+        message: 'connected',
+        userName: user.name
       })
     }
   } else {
@@ -75,6 +94,8 @@ app.post('/api/login', (req, res) => {
       message: 'you are already connected'
     })
   }
+  console.log('Users after login : ', users)
+  console.log('User after login : ', req.body.name)
 })
 
 app.get('/api/logout', (req, res) => {
@@ -91,13 +112,36 @@ app.get('/api/logout', (req, res) => {
   }
 })
 
-app.get('/home', (req, res) => {
-  if (req.session.loggedin) {
-    res.send('Welcome back, ' + req.session.username + '!')
-  } else {
-    res.send('Please login to view this page!')
-  }
-  res.end()
+app.put('/api/favorite', (req, res) => {
+  const user = users.find(u => u.username === req.body.username)
+  user.favorites.push({
+    nameRecipe: req.body.nameRecipe,
+    categoryRecipe: req.body.categoryRecipe,
+    imageRecipe: req.body.imageRecipe
+  })
+  res.json({
+    message: 'favorite added'
+    // favorites: user.favorites
+  })
+  console.log('favorites : ', user.favorites)
+})
+
+app.get('/api/getFavorites', (req, res) => {
+  const user = users.find(u => u.username === req.body.username)
+  console.log('new favorite', user.favorites)
+  res.json({
+    message: 'Getting favorites',
+    favorites: user.favorites
+  })
+})
+
+app.get('/api/getUser', (req, res) => {
+  const user = users.find(u => u.username === req.body.username)
+  console.log('current user', user.name)
+  res.json({
+    message: 'Getting current user',
+    currentUser: user.name
+  })
 })
 
 app.get('/api/admin', (req, res) => {
@@ -106,7 +150,6 @@ app.get('/api/admin', (req, res) => {
     res.json({ message: 'Unauthorized' })
     return
   }
-
   res.json({
     message: 'congrats, you are connected'
   })

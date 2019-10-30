@@ -14,14 +14,10 @@
       <h4>{{ strMeal }}</h4>
       <p>{{ strCategory }}</p>
       <v-spacer></v-spacer>
-      <router-link
-        :to="{ name: 'favorites', params: { idMeal, strMeal, strCategory, strTags, strArea, strInstructions, strMealThumb, strYoutube, strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10 }}"
-      >
-      <v-chip color="red" outlined class="mr-2" @click="favorite(strMeal)">
-        <v-icon v-if="isFavorited">mdi-heart</v-icon>
-        <v-icon v-else>mdi-heart-outline</v-icon>
-      </v-chip>
-      </router-link>
+        <v-chip color="red" outlined class="mr-2" @click="favorite()">
+          <v-icon v-if="isFavorited">mdi-heart</v-icon>
+          <v-icon v-else>mdi-heart-outline</v-icon>
+        </v-chip>
     </div>
   </div>
 </template>
@@ -29,16 +25,23 @@
 <script>
 export default {
   name: 'card',
-  data: function () {
-    return {
-      isFavorited: false
-    }
-  },
+  data: () => ({
+    isFavorited: false,
+    url: 'http://localhost:4000',
+    nameRecipe: ''
+  }),
   methods: {
-    favorite (name) {
+    favorite () {
       // alert('Add ' + name + ' to favorites'),
       if (this.isFavorited === false) {
         this.isFavorited = true
+        console.log('recipe name', name)
+        this.axios.put(this.url + '/api/favorite', {
+          nameRecipe: this.strMeal,
+          categoryRecipe: this.strCategory,
+          imageRecipe: this.strMealThumb,
+          username: this.username
+        })
       } else {
         this.isFavorited = false
       }
